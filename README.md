@@ -91,7 +91,7 @@ Execute os scripts Python para realizar a transformação dos dados:
 
 Você pode executar consultas SQL diretamente no DBeaver para visualizar as tabelas de fatos e dimensões.
 
-**Considerações Finais**
+## Considerações Finais
 
 Este projeto foi desenvolvido com o objetivo de demonstrar como montar um fluxo de transformação de dados utilizando um banco de dados relacional e ferramentas como Docker, DBeaver e Python. A implementação do fluxo ETL visa garantir que os dados brutos sejam preparados e transformados para análises avançadas em modelos de banco de dados analíticos.
 
