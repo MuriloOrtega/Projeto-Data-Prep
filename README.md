@@ -68,3 +68,48 @@ O fluxo de transformação foi planejado utilizando uma abordagem de **Batch**. 
    ```bash
    git clone https://github.com/MuriloOrtega/Projeto-Data-Prep.git
    cd Projeto-Data-Prep
+   
+2. Configuração do Docker e Banco de Dados
+
+Subir o container do PostgreSQL:
+
+   docker-compose up -d
+
+Acesse o PostgreSQL através do DBeaver utilizando as credenciais configuradas no docker-compose.yml. Importe os dados transacionais do e-commerce.
+
+3. Executando os Scripts Python (Opcional)
+
+Caso você tenha implementado transformações com Python, execute os scripts localmente. Verifique se as dependências estão instaladas:
+
+   pip install -r requirements.txt
+   
+Execute os scripts Python para realizar a transformação dos dados:
+
+   python transformacao_dados.py
+
+4. Consultas no Banco de Dados
+
+Você pode executar consultas SQL diretamente no DBeaver para visualizar as tabelas de fatos e dimensões.
+
+Estrutura de Pastas
+
+/Projeto-Data-Prep
+│
+├── /docker
+│   └── docker-compose.yml # Configuração do Docker para o PostgreSQL
+│
+├── /scripts
+│   ├── transformacao_dados.py # Script Python para transformação de dados
+│   └── outros_scripts.py # Outros scripts necessários
+│
+├── /dados
+│   └── dados_transacionais.csv # Dados brutos do e-commerce
+│
+├── README.md # Este arquivo
+└── requirements.txt # Dependências Python
+
+
+
+
+
+   
