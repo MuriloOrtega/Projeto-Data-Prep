@@ -72,21 +72,21 @@ O fluxo de transformação foi planejado utilizando uma abordagem de **Batch**. 
 2. Configuração do Docker e Banco de Dados
 
 Subir o container do PostgreSQL:
-
+   ```bash            
    docker-compose up -d
-
+````
 Acesse o PostgreSQL através do DBeaver utilizando as credenciais configuradas no docker-compose.yml. Importe os dados transacionais do e-commerce.
 
 3. Executando os Scripts Python (Opcional)
 
 Caso você tenha implementado transformações com Python, execute os scripts localmente. Verifique se as dependências estão instaladas:
-
+```bash
    pip install -r requirements.txt
-   
+   ```
 Execute os scripts Python para realizar a transformação dos dados:
-
+```bash
    python transformacao_dados.py
-
+```
 4. Consultas no Banco de Dados
 
 Você pode executar consultas SQL diretamente no DBeaver para visualizar as tabelas de fatos e dimensões.
