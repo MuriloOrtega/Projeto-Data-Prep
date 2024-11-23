@@ -1,0 +1,61 @@
+-- Tabela Dimensão: Clientes
+CREATE TABLE dim_clientes (
+    customer_id VARCHAR(50) PRIMARY KEY,
+    customer_unique_id VARCHAR(50),
+    customer_zip_code_prefix VARCHAR(10),
+    customer_city VARCHAR(255),
+    customer_state CHAR(2)
+);
+
+-- Tabela Dimensão: Produtos
+CREATE TABLE dim_produtos (
+    product_id VARCHAR(50) PRIMARY KEY,
+    product_category_name VARCHAR(255),
+    product_name_length INT,
+    product_description_length INT,
+    product_photos_qty INT
+);
+
+-- Tabela Dimensão: Vendedores
+CREATE TABLE dim_vendedores (
+    seller_id VARCHAR(50) PRIMARY KEY,
+    seller_zip_code_prefix VARCHAR(10),
+    seller_city VARCHAR(255),
+    seller_state CHAR(2)
+);
+
+-- Tabela Dimensão: Tempo
+CREATE TABLE dim_tempo (
+    data_id SERIAL PRIMARY KEY,
+    data DATE,
+    ano INT,
+    mes INT,
+    dia INT,
+    dia_semana VARCHAR(20),
+    semana_do_ano INT
+);
+
+CREATE TABLE dim_geolocation (
+    geolocation_id SERIAL PRIMARY KEY,          -- Chave primária única
+    geolocation_zip_code_prefix VARCHAR(10),    -- Prefixo do CEP
+    geolocation_lat NUMERIC(10, 6),             -- Latitude
+    geolocation_lng NUMERIC(10, 6),             -- Longitude
+    geolocation_city VARCHAR(255),             -- Cidade
+    geolocation_state CHAR(2)                  -- Estado
+);
+
+
+-- Tabela Fato: Pedidos
+CREATE TABLE fato_pedidos (
+    order_id VARCHAR(50) PRIMARY KEY,
+    customer_id VARCHAR(50),
+    product_id VARCHAR(50),
+    seller_id VARCHAR(50),
+    payment_value NUMERIC(10, 2),
+    freight_value NUMERIC(10, 2),
+    order_status VARCHAR(20),
+    order_purchase_date DATE,
+    FOREIGN KEY (customer_id) REFERENCES dim_clientes(customer_id),
+    FOREIGN KEY (product_id) REFERENCES dim_produtos(product_id),
+    FOREIGN KEY (seller_id) REFERENCES dim_vendedores(seller_id)
+);

@@ -1,0 +1,78 @@
+import psycopg2
+import pandas as pd
+
+# Função para conectar ao banco de dados
+
+def connect_db(host, dbname, user, password):
+    return psycopg2.connect(
+        host=host,
+        dbname=dbname,
+        user=user,
+        password=password,
+        port=5432  # Porta padrão do PostgreSQL
+    )
+
+# Função para extrair dados do Banco 1
+def extract_data(conn):
+    query = "SELECT * FROM tabela_origem;"  # Modifique para sua tabela de origem
+    return pd.read_sql(query, conn)
+
+# Função para transformar os dados (exemplo simples de transformação)
+def transform_data(df):
+    # Exemplo de transformação: renomear colunas, filtrar dados, etc.
+
+    # Aqui, você pode aplicar as transformações necessárias
+
+    df['nova_coluna'] = df['coluna_existente'] * 10  # Exemplo de transformação
+    return df
+
+# Função para carregar dados no Banco 2
+
+def load_data(df, conn):
+
+    # Definir o nome da tabela de destino
+
+    table_name = 'tabela_dimensao'  # Substitua com o nome da sua tabela de dimensão
+
+    # Inserir dados no banco de dados 2
+
+    cursor = conn.cursor()
+    for index, row in df.iterrows():
+        # Insira os dados na tabela de destino
+
+        cursor.execute("""
+            INSERT INTO tabela_dimensao (coluna1, coluna2, nova_coluna)
+            VALUES (%s, %s, %s);
+        """, (row['coluna1'], row['coluna2'], row['nova_coluna']))  # Ajuste as colunas
+    conn.commit()
+    cursor.close()
+
+def main():
+
+    # Conectar aos dois bancos de dados locais
+
+    db1_conn = connect_db('localhost', 'db_name1', 'usuario', 'senha')  # Banco de dados 1
+    db2_conn = connect_db('localhost', 'db_name2', 'usuario', 'senha')  # Banco de dados 2
+
+    # Etapa 1: Extrair dados do Banco 1
+
+    df = extract_data(db1_conn)
+    print("Dados extraídos com sucesso!")
+
+    # Etapa 2: Transformar dados
+
+    df_transformed = transform_data(df)
+    print("Dados transformados com sucesso!")
+
+    # Etapa 3: Carregar dados no Banco 2
+
+    load_data(df_transformed, db2_conn)
+    print("Dados carregados no Banco 2 com sucesso!")
+
+    # Fechar as conexões
+
+    db1_conn.close()
+    db2_conn.close()
+
+if __name__ == '__main__':
+    main()
